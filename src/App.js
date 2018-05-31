@@ -19,13 +19,6 @@ class BooksApp extends React.Component {
     })
   }
 
-  // distributeBooks = (shelf) => {
-  //     const result = this.state.books.map( (book) => {
-  //       return book.shelf === shelf
-  //     })
-  // }
-
-
   render() {
     let read, currentlyReading, wantToRead
       read = this.state.books.filter( book => (
@@ -39,7 +32,9 @@ class BooksApp extends React.Component {
     ))
     return (
       <div className="app">
-        <Route path="/search" component={SearchBar} />
+        <Route path="/search" render={ () => (
+          <SearchBar books={this.state.books} />
+        )} />
           <Route exact path="/" render={ () => (
             <div className="list-books">
               <div className="list-books-title">
