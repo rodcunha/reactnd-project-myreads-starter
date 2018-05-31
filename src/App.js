@@ -19,37 +19,50 @@ class BooksApp extends React.Component {
     })
   }
 
-  getCurrentlyReading = (shelf) => {
-      let arr = []
-      if (this.state.books.shelf === shelf) {
-        arr.push(this.state.books)
-      }
-      return arr
-  }
+  // distributeBooks = (shelf) => {
+  //     const result = this.state.books.map( (book) => {
+  //       return book.shelf === shelf
+  //     })
+  // }
 
 
   render() {
-           console.log(this.getCurrentlyReading('read'))
+    let read, currentlyReading, wantToRead
+      read = this.state.books.filter( book => (
+        book.shelf === 'read'
+    ))
+      currentlyReading = this.state.books.filter( book => (
+        book.shelf === 'currentlyReading'
+    ))
+      wantToRead = this.state.books.filter( book => (
+        book.shelf === 'wantToRead'
+    ))
     return (
       <div className="app">
         <Route path="/search" component={SearchBar} />
           <Route exact path="/" render={ () => (
-            <div>
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
               <BookShelf title="Currently Reading" />
                 <ol className="books-grid">
-                  <Book />
-                  <Book />
+                  {currentlyReading.map( book => (
+                    <Book key={book.id} title={book.title} author={book.author} img={book.imageLinks.thumbnail} />
+                  ))}
                 </ol>
 
               <BookShelf title="Want to Read" />
                 <ol className="books-grid">
-                  <Book />
-                  <Book />
+                {wantToRead.map( book => (
+                  <Book key={book.id} title={book.title} author={book.author} img={book.imageLinks.thumbnail} />
+                ))}
                 </ol>
               <BookShelf title="Read" />
                 <ol className="books-grid">
-                  <Book />
-                  <Book />
+                {read.map( book => (
+                  <Book key={book.id} title={book.title} author={book.author} img={book.imageLinks.thumbnail} />
+                ))}
                 </ol>
               <OpenSearch />
             </div>
