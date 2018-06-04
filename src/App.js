@@ -6,6 +6,7 @@ import BookShelf from './BookShelf'
 import OpenSearch from './OpenSearch'
 import SearchBar from './SearchBar'
 import Book from './Book'
+import PropTypes from 'prop-types'
 
 class BooksApp extends React.Component {
   state = {
@@ -16,6 +17,13 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then( books => {
       this.setState( { books } )
         console.log(this.state.books)
+    })
+  }
+
+  changeShelf = (e) => {
+    console.log(e.target)
+    BooksAPI.update().then( book => {
+      this.setState( {  })
     })
   }
 
@@ -43,20 +51,20 @@ class BooksApp extends React.Component {
               <BookShelf title="Currently Reading" />
                 <ol className="books-grid">
                   {currentlyReading.map( book => (
-                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} />
+                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} shelf={this.changeShelf} />
                   ))}
                 </ol>
 
               <BookShelf title="Want to Read" />
                 <ol className="books-grid">
                 {wantToRead.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} />
+                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} shelf={this.changeShelf} />
                 ))}
                 </ol>
               <BookShelf title="Read" />
                 <ol className="books-grid">
                 {read.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} />
+                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} shelf={this.changeShelf} />
                 ))}
                 </ol>
               <OpenSearch />
@@ -65,6 +73,11 @@ class BooksApp extends React.Component {
       </div>
     )
   }
+}
+
+BooksApp.propTypes = {
+  books: PropTypes.array.isRequired,
+  changeShelf: PropTypes.func
 }
 
 export default BooksApp

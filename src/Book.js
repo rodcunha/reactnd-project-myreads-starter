@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SelectList from './SelectList'
+import * as BooksAPI from './BooksAPI'
 
 class Book extends Component {
   render() {
@@ -8,7 +9,7 @@ class Book extends Component {
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.img})` }}></div>
-              <SelectList />
+              <SelectList shelf={this.props.shelf} />
           </div>
           <div className="book-title">{this.props.title}</div>
           <div className="book-authors">{this.props.author}</div>

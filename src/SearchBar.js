@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
@@ -10,7 +11,11 @@ class SearchBar extends Component {
   }
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
+    BooksAPI.search(query)
+      .then( books => { console.log( { books })
+    })
   }
+
   render() {
     let showBooks
       if (this.state.query) {
@@ -47,7 +52,7 @@ class SearchBar extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {showBooks.map( book => (
-              <Book title={book.title} author={book.authors} img={book.imageLinks.thumbnail} />
+              <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} />
             ))}
           </ol>
         </div>
