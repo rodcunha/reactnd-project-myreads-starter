@@ -21,10 +21,10 @@ class BooksApp extends React.Component {
   }
 
   changeShelf = (e) => {
-    console.log(e.target)
-    BooksAPI.update().then( book => {
-      this.setState( {  })
-    })
+    console.log(e.target.value)
+    // BooksAPI.update().then( book => {
+    //   console.log(book)
+    // })
   }
 
   render() {
@@ -51,20 +51,20 @@ class BooksApp extends React.Component {
               <BookShelf title="Currently Reading" />
                 <ol className="books-grid">
                   {currentlyReading.map( book => (
-                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} shelf={this.changeShelf} />
+                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} changeShelf={this.changeShelf} />
                   ))}
                 </ol>
 
               <BookShelf title="Want to Read" />
                 <ol className="books-grid">
                 {wantToRead.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} shelf={this.changeShelf} />
+                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} changeShelf={this.changeShelf} />
                 ))}
                 </ol>
               <BookShelf title="Read" />
                 <ol className="books-grid">
                 {read.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} shelf={this.changeShelf} />
+                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} changeShelf={this.changeShelf} />
                 ))}
                 </ol>
               <OpenSearch />
