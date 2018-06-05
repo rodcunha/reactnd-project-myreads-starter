@@ -14,7 +14,7 @@ class BooksApp extends React.Component {
       this.state = {
         books: []
       }
-      this.Book = this.changeShelf.bind(this)
+      this.changeShelf = this.changeShelf.bind(this)
   }
 
 
@@ -28,7 +28,7 @@ class BooksApp extends React.Component {
   changeShelf = (e) => {
     const shelf = e.target.value
     console.log(this)
-    BooksAPI.update(this, shelf).then( book => {
+    BooksAPI.update(this.Book.book, shelf).then( book => {
       console.log(book)
     })
   }
@@ -57,20 +57,20 @@ class BooksApp extends React.Component {
               <BookShelf title="Currently Reading" />
                 <ol className="books-grid">
                   {currentlyReading.map( book => (
-                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} changeShelf={this.changeShelf} />
+                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
                   ))}
                 </ol>
 
               <BookShelf title="Want to Read" />
                 <ol className="books-grid">
                 {wantToRead.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} changeShelf={this.changeShelf} />
+                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
                 ))}
                 </ol>
               <BookShelf title="Read" />
                 <ol className="books-grid">
                 {read.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} changeShelf={this.changeShelf} />
+                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
                 ))}
                 </ol>
               <OpenSearch />
