@@ -9,9 +9,14 @@ import Book from './Book'
 import PropTypes from 'prop-types'
 
 class BooksApp extends React.Component {
-  state = {
-    books: []
+  constructor(props) {
+    super(props);
+      this.state = {
+        books: []
+      }
+      this.Book = this.changeShelf.bind(this)
   }
+
 
   componentDidMount = () => {
     BooksAPI.getAll().then( books => {
@@ -21,10 +26,11 @@ class BooksApp extends React.Component {
   }
 
   changeShelf = (e) => {
-    console.log(e.target.value)
-    // BooksAPI.update().then( book => {
-    //   console.log(book)
-    // })
+    const shelf = e.target.value
+    console.log(this)
+    BooksAPI.update(this, shelf).then( book => {
+      console.log(book)
+    })
   }
 
   render() {
@@ -75,9 +81,9 @@ class BooksApp extends React.Component {
   }
 }
 
-BooksApp.propTypes = {
-  books: PropTypes.array.isRequired,
-  changeShelf: PropTypes.func
-}
+// BooksApp.propTypes = {
+//   books: PropTypes.array.isRequired,
+//   changeShelf: PropTypes.func
+// }
 
 export default BooksApp

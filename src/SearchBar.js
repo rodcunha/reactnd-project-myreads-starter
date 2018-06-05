@@ -19,7 +19,7 @@ class SearchBar extends Component {
           console.log(this.state.result)
         }
         })
-        .catch( err => { result: 'no books to display'})
+        .catch( err => { console.log('ERROR: ', err)})
   }
 
   render() {
@@ -41,7 +41,7 @@ class SearchBar extends Component {
           <ol className="books-grid">
           {
             this.state.result.map( book => (
-              (book.imageLinks.thumbnail != undefined) ?
+              (book.imageLinks.thumbnail) ?
                 <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} />
                 :
                 <Book key={book.id} title={book.title} author={book.authors} />
