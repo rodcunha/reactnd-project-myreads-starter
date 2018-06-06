@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import propTypes from 'prop-types'
 
 
 class SelectList extends Component {
   render() {
     return(
       <div className="book-shelf-changer">
-        <select book={book} onChange={ e => this.changeShelf(e, book)}>
+        <select onChange={ e => this.props.changeShelf(e, this.props.book)}>
           <option value="none" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
@@ -15,6 +16,10 @@ class SelectList extends Component {
       </div>
     )
   }
+}
+
+SelectList.propTypes = {
+  book: propTypes.object.isRequired
 }
 
 export default SelectList

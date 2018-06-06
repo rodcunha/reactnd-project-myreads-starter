@@ -6,16 +6,12 @@ import BookShelf from './BookShelf'
 import OpenSearch from './OpenSearch'
 import SearchBar from './SearchBar'
 import Book from './Book'
-import PropTypes from 'prop-types'
+
 
 class BooksApp extends React.Component {
-  constructor(props) {
-    super(props);
-      this.state = {
-        books: []
-      }
-      this.changeShelf = this.changeShelf.bind(this)
-  }
+    state = {
+      books: []
+    }
 
 
   componentDidMount = () => {
@@ -25,11 +21,14 @@ class BooksApp extends React.Component {
     })
   }
 
-  changeShelf = (e) => {
-    const shelf = e.target.value
-    console.log(this)
-    BooksAPI.update(this.Book.book, shelf).then( book => {
-      console.log(book)
+  changeShelf = (book, e) => {
+    console.log(e, book)
+    BooksAPI.update(book, e.target.value).then( () => {
+      this.setState( state => {
+        for (const book of this.state.books) {
+
+        }
+      })
     })
   }
 
@@ -80,10 +79,5 @@ class BooksApp extends React.Component {
     )
   }
 }
-
-// BooksApp.propTypes = {
-//   books: PropTypes.array.isRequired,
-//   changeShelf: PropTypes.func
-// }
 
 export default BooksApp
