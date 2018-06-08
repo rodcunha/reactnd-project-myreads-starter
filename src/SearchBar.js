@@ -12,17 +12,21 @@ class SearchBar extends Component {
 
   updateQuery = (query) => {
     this.setState({ query })
+
     BooksAPI.search(query)
       .then( books => {
         if (books.length > 0) {
-          this.setState({result: books})
-          console.log(this.state.result)
+          if (!books.shelf) {
+            books.shelf = 'none'
+            this.setState({result: books})
+          }
         }
-        })
-        .catch( err => { console.log('ERROR: ', err)})
+      })
+      .catch( err => { console.log('ERROR: ', err)})
   }
 
   render() {
+    const {books, changeShelf} = this.props
     return(
       <div className="search-books">
         <div className="search-books-bar">
@@ -42,9 +46,9 @@ class SearchBar extends Component {
           {
             this.state.result.map( book => (
               (book.imageLinks.thumbnail) ?
-                <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} />
+                <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} />
                 :
-                <Book key={book.id} title={book.title} author={book.authors} />
+                <Book key={book.id} title={book.title} author={book.authors} book={book} />
           ))}
           </ol>
         </div>
