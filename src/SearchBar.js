@@ -10,18 +10,23 @@ class SearchBar extends Component {
     result: []
   }
 
-  updateQuery = (query) => {
-    this.setState({ query })
-
-    BooksAPI.search(query)
-      .then( books => {
-        if (books.length > 0) {
-          if (!books.shelf) {
-            this.setState({result: books, shelf: 'none'})
-          }
+  updateQuery = (e) => {
+    const query = e.trim();
+    if (query.length >= 0) {
+      this.setState({query})
+      BooksAPI.search(query)
+        .then( res => {
+          if (res instanceof Array) {
+            const books = res.filter(book => book.imageLinks && book.authors);
+            this.setState({ result: books });
+        } else {
+          this.setState({ result: [] })
         }
       })
-      .catch( err => { console.log('ERROR: ', err)})
+        .catch( err => { console.log('ERROR: ', err)})
+    } else {
+      this.setState({ result: [] })
+    }
   }
 
   render() {
