@@ -17,8 +17,7 @@ class SearchBar extends Component {
       .then( books => {
         if (books.length > 0) {
           if (!books.shelf) {
-            books.shelf = 'none'
-            this.setState({result: books})
+            this.setState({result: books, shelf: 'none'})
           }
         }
       })
@@ -46,9 +45,9 @@ class SearchBar extends Component {
           {
             this.state.result.map( book => (
               (book.imageLinks.thumbnail) ?
-                <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} />
+                <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={changeShelf} />
                 :
-                <Book key={book.id} title={book.title} author={book.authors} book={book} />
+                <Book key={book.id} title={book.title} author={book.authors} book={book} changeShelf={changeShelf} />
           ))}
           </ol>
         </div>
