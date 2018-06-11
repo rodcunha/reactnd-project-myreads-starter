@@ -12,13 +12,23 @@ class SearchBar extends Component {
 
   updateQuery = (e) => {
     const query = e.trim();
+    const booksOnShelves = this.props.books;
     if (query.length >= 0) {
       this.setState({query})
       BooksAPI.search(query)
         .then( res => {
           if (res instanceof Array) {
-            const books = res.filter(book => book.imageLinks && book.authors);
-            this.setState({ result: books });
+            res.map( booksInSearch => {
+              booksOnShelves.map( onShelves =>  {
+                if (booksInSearch.id === onShelves.id) {
+                  return booksInSearch.shelf = onShelves.shelf
+                } else {
+                  return booksInSearch.shelf = 'none'
+                }
+              })
+            })
+            const result = res.filter(book => book.imageLinks && book.authors);
+            this.setState({ result });
         } else {
           this.setState({ result: [] })
         }
