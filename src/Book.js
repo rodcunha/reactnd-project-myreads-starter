@@ -22,8 +22,8 @@ const Book = (props) => {
               </select>
             </div>
           </div>
-          <div className="book-title">{props.title}</div>
-          <div className="book-authors">{props.author}</div>
+          <div className="book-title">{props.book.title}</div>
+          <div className="book-authors">{props.book.authors}</div>
         </div>
       </li>
     )

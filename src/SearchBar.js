@@ -10,37 +10,47 @@ class SearchBar extends Component {
     result: []
   }
 
+// Update the input field (controlled component) check if the book exists on the shelves or not and assign the shelf value or assign none if the books isn't on the shelves.
   updateQuery = (e) => {
     const query = e.trim();
-    const booksOnShelves = this.props.books;
-    if (query.length >= 0) {
-      this.setState({query})
-      BooksAPI.search(query)
-        .then( res => {
-          if (res instanceof Array) {
-            res.map( booksInSearch => {
-              booksOnShelves.map( onShelves =>  {
-                if (booksInSearch.id === onShelves.id) {
-                  return booksInSearch.shelf = onShelves.shelf
-                } else {
-                  return booksInSearch.shelf = 'none'
-                }
-              })
-            })
-            const result = res.filter(book => book.imageLinks && book.authors);
-            this.setState({ result });
-        } else {
-          this.setState({ result: [] })
-        }
-      })
-        .catch( err => { console.log('ERROR: ', err)})
-    } else {
-      this.setState({ result: [] })
-    }
-  }
 
+    if (query.length >= 0) {
+      this.setState({ query })
+      this.fetchBooks(query)
+      } else {
+        this.setState({ result: [] })
+      }
+    }
+
+  fetchBooks = (query) => {
+    const booksOnShelves = this.props.books;
+
+    BooksAPI.search( query )
+      .then( res => {
+        if (res instanceof Array) {
+          booksOnShelves.map( onShelves =>  {
+            res.map( booksFromSearch => {
+              if (booksFromSearch.id === onShelves.id) {
+                console.log('With Shelf: ' + booksFromSearch.title)
+                return booksFromSearch.shelf = onShelves.shelf
+              } else {
+                console.log('Without Shelf: ' + booksFromSearch.title)
+                return booksFromSearch.shelf = 'none'
+              }
+            })
+          })
+          const result = res.filter(book => book.imageLinks && book.authors);
+          this.setState({ result });
+      } else {
+        this.setState({ result: [] })
+      }
+    })
+      .catch( err => { console.log('ERROR: ', err)})
+}
+
+//render method
   render() {
-    const {books, changeShelf} = this.props
+    const {changeShelf} = this.props
     return(
       <div className="search-books">
         <div className="search-books-bar">
@@ -60,9 +70,9 @@ class SearchBar extends Component {
           {
             this.state.result.map( book => (
               (book.imageLinks.thumbnail) ?
-                <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={changeShelf} />
+                <Book key={book.id} title={book.title} authors={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={changeShelf} />
                 :
-                <Book key={book.id} title={book.title} author={book.authors} book={book} changeShelf={changeShelf} />
+                <Book key={book.id} title={book.title} authors={book.authors} book={book} changeShelf={changeShelf} />
           ))}
           </ol>
         </div>
@@ -72,7 +82,8 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-  query: propTypes.string
+  query: propTypes.string,
+  result: propTypes.array
 }
 
 export default SearchBar

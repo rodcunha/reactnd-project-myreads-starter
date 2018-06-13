@@ -54,20 +54,20 @@ class BooksApp extends React.Component {
               <BookShelf title="Currently Reading" />
                 <ol className="books-grid">
                   {currentlyReading.map( book => (
-                    <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
+                    <Book key={book.id} title={book.title} authors={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
                   ))}
                 </ol>
 
               <BookShelf title="Want to Read" />
                 <ol className="books-grid">
                 {wantToRead.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
+                  <Book key={book.id} title={book.title} authors={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
                 ))}
                 </ol>
               <BookShelf title="Read" />
                 <ol className="books-grid">
                 {read.map( book => (
-                  <Book key={book.id} title={book.title} author={book.authors } img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
+                  <Book key={book.id} title={book.title} authors={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={this.changeShelf} />
                 ))}
                 </ol>
               <OpenSearch />
