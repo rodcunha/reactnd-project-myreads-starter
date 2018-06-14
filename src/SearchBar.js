@@ -27,18 +27,17 @@ class SearchBar extends Component {
 
     BooksAPI.search( query )
       .then( res => {
-        if (res instanceof Array) {
-          booksOnShelves.map( onShelves =>  {
+        if (res instanceof Array && res.length > 0) {
             res.map( booksFromSearch => {
-              if (booksFromSearch.id === onShelves.id) {
-                console.log('With Shelf: ' + booksFromSearch.title)
-                return booksFromSearch.shelf = onShelves.shelf
-              } else {
-                console.log('Without Shelf: ' + booksFromSearch.title)
-                return booksFromSearch.shelf = 'none'
-              }
+              return booksOnShelves.find( book => {
+                if( booksFromSearch.id === book.id) {
+                  booksFromSearch.shelf = book.shelf
+                  return booksFromSearch;
+                } else {
+                  booksFromSearch.shelf = 'none'
+                }
+              })
             })
-          })
           const result = res.filter(book => book.imageLinks && book.authors);
           this.setState({ result });
       } else {
