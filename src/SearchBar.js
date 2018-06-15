@@ -7,12 +7,13 @@ import Book from './Book'
 class SearchBar extends Component {
   state = {
     query: '',
-    result: []
+    result: [],
+
   }
 
 // Update the input field (controlled component) check if the book exists on the shelves or not and assign the shelf value or assign none if the books isn't on the shelves.
   updateQuery = (e) => {
-    const query = e.trim();
+     const query = e;
 
     if (query.length >= 0) {
       this.setState({ query })
@@ -45,6 +46,13 @@ class SearchBar extends Component {
       }
     })
       .catch( err => { console.log('ERROR: ', err)})
+}
+
+updateSearchBooks = (  ) => {
+  BooksAPI.getAll()
+    .then(res => {
+      console.log(res)
+    })
 }
 
 //render method

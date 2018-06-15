@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 
 const Book = (props) => {
-    const {changeShelf} = props
+    const {changeShelf, book} = props
 
     return(
       <li>
@@ -11,10 +11,9 @@ const Book = (props) => {
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.img})` }}></div>
             <div className="book-shelf-changer">
               <select
-                  value={props.book.shelf}
-                //  onClick={ e => { if (!props.book.shelf && e.target.value === 'currentlyReading') { e.target.value = 'none' }}}
-                  onChange={ e => changeShelf(props.book, e.target.value)}>
-                <option value="none" disabled>Move to...</option>
+                  value={book.shelf}
+                  onChange={ e => changeShelf(book, e.target.value)}>
+                <option value="" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
