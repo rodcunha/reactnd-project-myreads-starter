@@ -7,7 +7,6 @@ import Book from './Book'
 class SearchBar extends Component {
   state = {
     query: '',
-    result: [],
 
   }
 
@@ -17,36 +16,12 @@ class SearchBar extends Component {
 
     if (query.length >= 0) {
       this.setState({ query })
-      this.fetchBooks(query)
+      this.props.fetchBooks(query)
       } else {
         this.setState({ result: [] })
       }
     }
 
-  fetchBooks = (query) => {
-    const booksOnShelves = this.props.books;
-
-    BooksAPI.search( query )
-      .then( res => {
-        if (res instanceof Array && res.length > 0) {
-            res.map( booksFromSearch => {
-              return booksOnShelves.find( book => {
-                if( booksFromSearch.id === book.id) {
-                  booksFromSearch.shelf = book.shelf
-                  return booksFromSearch;
-                } else {
-                  booksFromSearch.shelf = 'none'
-                }
-              })
-            })
-          const result = res.filter(book => book.imageLinks && book.authors);
-          this.setState({ result });
-      } else {
-        this.setState({ result: [] })
-      }
-    })
-      .catch( err => { console.log('ERROR: ', err)})
-}
 
 updateSearchBooks = (  ) => {
   BooksAPI.getAll()
@@ -57,7 +32,7 @@ updateSearchBooks = (  ) => {
 
 //render method
   render() {
-    const {changeShelf} = this.props
+    const {changeShelf, results} = this.props
     return(
       <div className="search-books">
         <div className="search-books-bar">
@@ -75,7 +50,7 @@ updateSearchBooks = (  ) => {
         <div className="search-books-results">
           <ol className="books-grid">
           {
-            this.state.result.map( book => (
+            results.map( book => (
               (book.imageLinks.thumbnail) ?
                 <Book key={book.id} title={book.title} authors={book.authors} img={book.imageLinks.thumbnail} book={book} changeShelf={changeShelf} />
                 :

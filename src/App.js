@@ -10,7 +10,8 @@ import Book from './Book'
 
 class BooksApp extends React.Component {
     state = {
-      books: []
+      books: [],
+      searchResults: []
     }
 
   componentDidMount = () => {
@@ -20,6 +21,34 @@ class BooksApp extends React.Component {
     })
   }
 
+// function to fetch the books for the search component
+  fetchBooks = (query) => {
+    const booksOnShelves = this.state.books;
+
+    BooksAPI.search( query )
+      .then( res => {
+        if (res instanceof Array && res.length > 0) {
+            res.map( booksFromSearch => {
+              return booksOnShelves.find( book => {
+                if( booksFromSearch.id === book.id) {
+                  booksFromSearch.shelf = book.shelf
+                  return booksFromSearch;
+                } else {
+                  booksFromSearch.shelf = 'none'
+                }
+              })
+            })
+          const searchResults = res.filter(book => book.imageLinks && book.authors);
+          this.setState({ searchResults });
+      } else {
+        this.setState({ searchResults: [] })
+      }
+    })
+      .catch( err => { console.log('ERROR: ', err)})
+}
+
+
+//function to change the shelf of the books
   changeShelf = (book, shelf) => {
     console.log(book, shelf)
     BooksAPI.update(book, shelf).then( resp => {
@@ -30,7 +59,9 @@ class BooksApp extends React.Component {
     })
   }
 
+
   render() {
+
     let read, currentlyReading, wantToRead
       read = this.state.books.filter( book => (
         book.shelf === 'read'
@@ -41,10 +72,11 @@ class BooksApp extends React.Component {
       wantToRead = this.state.books.filter( book => (
         book.shelf === 'wantToRead'
     ))
+
     return (
       <div className="app">
         <Route path="/search" render={ () => (
-          <SearchBar changeShelf={this.changeShelf} books={this.state.books} />
+          <SearchBar changeShelf={this.changeShelf} fetchBooks={this.fetchBooks} results={this.state.searchResults} books={this.state.books} />
         )} />
           <Route exact path="/" render={ () => (
             <div className="list-books">
